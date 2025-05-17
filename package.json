@@ -1,5 +1,5 @@
 {
-  "name": "@types/resilientmq__core",
+  "name": "@resilientmq/types__core",
   "version": "0.1.0",
   "types": "index.d.ts",
   "description": "TypeScript definitions for @resilientmq/core",

@@ -1,4 +1,4 @@
-# @types/resilientmq__core
+# @resilientmq/types__core
 
 TypeScript definitions for the `@resilientmq/core` messaging and resilience system.
 
