@@ -1,0 +1,39 @@
+{
+  "name": "@types/resilientmq__core",
+  "version": "0.1.0",
+  "types": "index.d.ts",
+  "description": "TypeScript definitions for @resilientmq/core",
+  "license": "MIT",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "tsd": {
+    "directory": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/resilientmq/types__core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/resilientmq/types__core/issues"
+  },
+  "homepage": "https://github.com/resilientmq/types__core#readme",
+  "keywords": [
+    "typescript",
+    "types",
+    "rabbitmq",
+    "resilientmq",
+    "amqp",
+    "event-driven",
+    "definitions"
+  ],
+  "author": "resilientmq",
+  "devDependencies": {
+    "@types/amqplib": "^0.10.7",
+    "tsd": "^0.32.0"
+  },
+  "dependencies": {
+    "amqplib": "^0.10.8"
+  }
+}
