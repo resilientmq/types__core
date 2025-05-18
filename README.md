@@ -4,22 +4,19 @@ TypeScript definitions for the `@resilientmq/core` messaging and resilience syst
 
 ## Table of Contents
 
-<!-- DON'T EDIT THIS SECTION -->
-
-- [@types/resilientmq__core](#typesresilientmq__core)
-    - [Table of Contents](#table-of-contents)
-    - [Installation](#installation)
-    - [Purpose](#purpose)
-    - [Examples](#examples)
-        - [EventMessage](#eventmessage)
-        - [EventStore Interface](#eventstore-interface)
-        - [MessageQueue Interface](#messagequeue-interface)
-    - [Docs](#docs)
-    - [Issues](#issues)
-        - [🐛 Bugs](#-bugs)
-        - [💡 Feature Requests](#-feature-requests)
-    - [Contributors](#contributors)
-    - [LICENSE](#license)
+- [Installation](#installation)
+- [Purpose](#purpose)
+- [Examples](#examples)
+    - [EventMessage](#eventmessage)
+    - [EventStore Interface](#eventstore-interface)
+    - [MessageQueue Interface](#messagequeue-interface)
+    - [ResilientConsumerConfig](#resilientconsumerconfig)
+- [Docs](#docs)
+- [Issues](#issues)
+    - [🐛 Bugs](#-bugs)
+    - [💡 Feature Requests](#-feature-requests)
+- [Contributors](#contributors)
+- [LICENSE](#license)
 
 ## Installation
 
@@ -40,34 +37,33 @@ npm install @types/resilientmq__core --save-dev
 
 ## Purpose
 
-This package provides type definitions for the [`@resilientmq/core`](https://www.npmjs.com/package/@resilientmq/core) library.
-
-It enables strict type-checking, IDE autocompletion, and developer tooling support for projects using the ResilientMQ event processing system.
+This package provides strict type definitions for the `@resilientmq/core` system,
+allowing strong typing for resilience-focused event processing with RabbitMQ.
 
 ## Examples
 
 ### EventMessage
 
 ```ts
-import type { EventMessage, EventStatus } from '@types/resilientmq__core';
+import type { EventMessage, EventConsumeStatus } from '@types/resilientmq__core';
 
 const event: EventMessage<{ userId: string }> = {
   id: 'evt-123',
   messageId: 'msg-123',
   type: 'user.created',
   payload: { userId: 'abc' },
-  status: EventStatus.RECEIVED,
+  status: EventConsumeStatus.RECEIVED,
 };
 ```
 
 ### EventStore Interface
 
 ```ts
-import type { EventStore, EventStatus, EventMessage } from '@types/resilientmq__core';
+import type { EventStore, EventConsumeStatus, EventMessage } from '@types/resilientmq__core';
 
 const store: EventStore = {
-  saveEvent: async (event: EventMessage) => {},
-  updateEventStatus: async (id, status: EventStatus) => {},
+  saveEvent: async (event: EventMessage) => { /* persist */ },
+  updateEventStatus: async (id, status: EventConsumeStatus) => {},
   getEvent: async (id) => null,
   deleteEvent: async (id) => {},
 };
@@ -80,14 +76,43 @@ import type { MessageQueue, EventMessage } from '@types/resilientmq__core';
 
 const queue: MessageQueue = {
   connect: async () => {},
-  publish: async (queue, event) => {},
+  publish: async (queue, event, options) => {},
   consume: async (queue, onMessage) => {},
+};
+```
+
+### ResilientConsumerConfig
+
+```ts
+import type { ResilientConsumerConfig } from '@types/resilientmq__core';
+
+const config: ResilientConsumerConfig = {
+    connection: 'amqp://localhost',
+    consumeQueue: {
+        queue: 'main.queue',
+        options: { durable: true }
+    },
+    retryQueue: {
+        queue: 'main.queue.retry',
+        ttlMs: 10000,
+        maxAttempts: 5,
+        options: { durable: true }
+    },
+    deadLetterQueue: {
+        queue: 'main.queue.dlq',
+        options: { durable: true }
+    },
+    prefetch: 5,
+    eventsToProcess: [
+        { type: 'user.created', handler: async (payload) => console.log(payload) }
+    ],
+    store: { ... } // implements EventStore
 };
 ```
 
 ## Docs
 
-Check out the [ResilientMQ Core Docs](https://github.com/resilientmq/types__core) for more on the event system this types package supports.
+See [ResilientMQ Core Docs](https://github.com/resilientmq/types__core) for complete details.
 
 ## Issues
 
@@ -105,16 +130,19 @@ Have suggestions for new interfaces or type helpers? Open a feature request.
 
 ## Contributors
 
-<!-- Do not remove or modify this section -->
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/hector-ae21"><img src="https://avatars.githubusercontent.com/u/87265357?v=4" width="100px;" alt="Hector L. Arrechea"/><br /><sub><b>Hector L. Arrechea</b></sub></a><br /><a title="Code">💻</a> <a title="Documentation">📖</a> <a title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%">
+        <a href="https://github.com/hector-ae21">
+          <img src="https://avatars.githubusercontent.com/u/87265357?v=4" width="100px;" alt="Hector L. Arrechea"/>
+          <br /><sub><b>Hector L. Arrechea</b></sub>
+        </a>
+        <br /><a title="Code">💻</a> <a title="Documentation">📖</a> <a title="Infrastructure">🚇</a> <a title="Tests">⚠️</a>
+      </td>
     </tr>
   </tbody>
 </table>
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## LICENSE
 
