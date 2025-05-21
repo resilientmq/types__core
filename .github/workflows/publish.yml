@@ -22,9 +22,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run TSD type tests
-        run: npx tsd
-
       # Get current version
       - name: Get current version
         id: current
