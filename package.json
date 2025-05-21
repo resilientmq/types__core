@@ -1,6 +1,6 @@
 {
   "name": "@resilientmq/types__core",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "types": "index.d.ts",
   "description": "TypeScript definitions for @resilientmq/core",
   "license": "MIT",
